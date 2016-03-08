@@ -21,7 +21,7 @@ void usage (const char* progname, int ret);
 // Function prototype. You have to fill in the implementation below.
 void powmod (PosInt& result, const PosInt& a, const PosInt& b, const PosInt& n);
 
-void randomRange (PosInt& result, int bits, int sub);
+void randomRange (PosInt& result, int bits);
 
 int main (int argc, char** argv) {
   // Detect if standard in is coming from a terminal
@@ -51,13 +51,13 @@ int main (int argc, char** argv) {
     ////////////////////////////////////////////////////////////////////
     //                 KEY GENERATION                                 //
     ////////////////////////////////////////////////////////////////////
-    
+
     //random number between 2^95 & 2^97
     PosInt p;
     PosInt q;
 
-    randomRange(p, 116, 119);
-    randomRange(q, 124, 127);
+    randomRange(p, 284);
+    randomRange(q, 313);
 
     bool p_prime = false;
     bool q_prime = false;
@@ -66,12 +66,12 @@ int main (int argc, char** argv) {
     while(!p_prime){
       //find an obviously not prime number
       while(p.isEven()){
-	randomRange(p, 116, 119);
+	randomRange(p, 284);
       }
 
       //test if obviously not prime is actually prime multiple times
       bool prime_now = true;
-      for(int i = 0; i < 30; i++)
+      for(int i = 0; i < 35; i++)
       {
 	prime_now = p.MillerRabin();
 
@@ -82,22 +82,20 @@ int main (int argc, char** argv) {
       if(prime_now)
 	p_prime = true;
       else
-	randomRange(p, 116, 119);
-      
-    }
+	randomRange(p, 284);
 
-    cout << "prime p is found. it is " << p << "\n";
+    }
 
     while(!q_prime)
     {
       //find an obviously not prime number
       while(q.isEven()){
-	randomRange(q, 124, 127);
+	randomRange(q, 312);
       }
 
       //test if obviously not prime is actually prime multiple times
       bool prime_now = true;
-      for(int i = 0; i < 30; i++)
+      for(int i = 0; i < 35; i++)
       {
 	prime_now = q.MillerRabin();
 	if(prime_now)
@@ -109,24 +107,48 @@ int main (int argc, char** argv) {
       if(prime_now)
 	q_prime = true;
       else
-	randomRange(q, 124, 127);
+	randomRange(q, 312);
     }
 
-    cout << "prime q is found. it is " << q << "\n";
 
+//both p and q are found by now. Calculate n
     PosInt n(p);
     n.mul(q);
 
-    cout << "n is now: " << n << "\n";
+//start finding e and d
+    PosInt one(1);
+    PosInt p_min_1(p);
+    p_min_1.sub(one);
+    PosInt q_min_1(q);
+    q_min_1.sub(one);
 
-    // These are just "dummy" values! Replace with your actual code
-    PosInt e (7);
-    PosInt d (13);
+//calculate phi(n)
+    PosInt phi(p_min_1);
+    phi.mul(q_min_1);
+
+//begin finding random number 1<e<phi(n) where gcd(phi(n), e)=1
+    PosInt e;
+    PosInt gcd_result(0);
+    e.rand(phi);
+
+
+    while(gcd_result.compare(one) != 0){
+        e.rand(phi);
+        gcd_result.gcd(phi, e);
+    };
+
+    PosInt g;
+    PosInt s;
+    PosInt t;
+
+    g.xgcd(s, t, e, phi);
+
+    PosInt d(s);
 
     // Print out the keys to their respective files.
     pubout << e << endl << n << endl;
     privout << d << endl << n << endl;
-    
+
     ///////////////// (end of key generation) //////////////////////////
     pubout.close();
     privout.close();
@@ -154,7 +176,7 @@ int main (int argc, char** argv) {
     int c;
     PosInt M (0); // Initialize M to zero
     PosInt curByte (topByte);
-    
+
     bool keepGoing = true;
     while (keepGoing) {
       c = cin.get();
@@ -229,12 +251,11 @@ void powmod (PosInt& result, const PosInt& a, const PosInt& b, const PosInt& n) 
 
 /////////////////end modular exponentiation/////////////////
 
-//random number with range of 2^power
-void randomRange (PosInt& result, int bits, int sub)
+//random number with of length around 2^bits
+void randomRange (PosInt& result, int bits)
 {
-  //random number between 2^95 & 2^97
 
-  PosInt power(sub);
+  PosInt power(bits+3);
   PosInt base(2);
   PosInt power2(bits);
   PosInt base2(2);
@@ -262,7 +283,7 @@ void PosInt::fasterMul (const PosInt& x) {
   // First figure out the larger of the two input sizes
   int n = digits.size();
   if (n < x.digits.size()) n = x.digits.size();
-  
+
   // Now copy the inputs into vectors of that size, with zero-padding
   vector<int> mycopy(digits);
   vector<int> xcopy(x.digits);
@@ -320,4 +341,3 @@ void usage (const char* progname, int ret) {
     << endl;
   exit(ret);
 }
-
