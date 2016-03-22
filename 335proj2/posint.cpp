@@ -121,12 +121,12 @@ int PosInt::convert () const {
   return val;
 }
 
-ostream& operator<< (ostream& out, const PosInt& x) { 
-  x.print(out); 
+ostream& operator<< (ostream& out, const PosInt& x) {
+  x.print(out);
   return out;
 }
 
-istream& operator>> (istream& in, PosInt& x) { 
+istream& operator>> (istream& in, PosInt& x) {
   x.read(in);
   return in;
 }
@@ -275,8 +275,8 @@ void PosInt::sub (const PosInt& x) {
 // x has length xlen and y has length ylen.
 // dest must have size (xlen+ylen) to store the result.
 // Uses standard O(n^2)-time multiplication.
-void PosInt::mulArray 
-  (int* dest, const int* x, int xlen, const int* y, int ylen) 
+void PosInt::mulArray
+  (int* dest, const int* x, int xlen, const int* y, int ylen)
 {
   for (int i=0; i<xlen+ylen; ++i) dest[i] = 0;
   for (int i=0; i<xlen; ++i) {
@@ -342,12 +342,12 @@ int PosInt::divDigit (int* dest, int d, int len) {
 }
 
 // Computes division with remainder, digit-wise.
-// REQUIREMENTS: 
+// REQUIREMENTS:
 //   - length of q is at least xlen-ylen+1
 //   - length of r is at least xlen
 //   - q and r are distinct from all other arrays
 //   - most significant digit of divisor (y) is at least B/2
-void PosInt::divremArray 
+void PosInt::divremArray
   (int* q, int* r, const int* x, int xlen, const int* y, int ylen)
 {
   // Copy x into r
@@ -439,8 +439,8 @@ void PosInt::divrem (PosInt& q, PosInt& r, const PosInt& x, const PosInt& y) {
     }
     q.digits.resize(xlen - ylen + 1);
     r.digits.resize(xlen);
-    divremArray (&q.digits[0], &r.digits[0], 
-      (xarr == NULL ? (&x.digits[0]) : xarr), xlen, 
+    divremArray (&q.digits[0], &r.digits[0],
+      (xarr == NULL ? (&x.digits[0]) : xarr), xlen,
       (yarr == NULL ? (&y.digits[0]) : yarr), ylen);
     if (xarr != NULL) delete [] xarr;
     if (yarr != NULL) delete [] yarr;
@@ -569,7 +569,7 @@ bool PosInt::MillerRabin () const {
 
   if (x.compare(one) == 0) return true;
   if (x.compare(nminus1) == 0) return true;
- 
+
   while (k.compare(one) > 0) { // while (k > 1)
     x.mul(x);
     x.mod(*this); // x = x^2 mod n

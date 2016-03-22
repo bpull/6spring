@@ -37,7 +37,7 @@ int main (int argc, char** argv) {
   PosInt byte(256);
   int blocklen = 10;
   PosInt topByte(1);
-  for (int i=0; i<blocklen-1; ++i) topByte.mul(byte);
+  for (int i=0; i<blocklen-1; ++i) topByte.fasterMul(byte);
 
   if (argc < 2 || argv[1][0] != '-') usage(argv[0],1);
   if (argv[1][1] == 'k') {
@@ -113,7 +113,7 @@ int main (int argc, char** argv) {
 
 //both p and q are found by now. Calculate n
     PosInt n(p);
-    n.mul(q);
+    n.fasterMul(q);
 
 //start finding e and d
     PosInt one(1);
@@ -124,13 +124,14 @@ int main (int argc, char** argv) {
 
 //calculate phi(n)
     PosInt phi(p_min_1);
-    phi.mul(q_min_1);
+    phi.fasterMul(q_min_1);
 
 //begin finding random number 1<e<phi(n) where gcd(phi(n), e)=1
     PosInt e;
     PosInt gcd_result(0);
-    e.rand(phi);
 
+
+    e.rand(phi);
 
     while(gcd_result.compare(one) != 0){
         e.rand(phi);
@@ -184,14 +185,15 @@ int main (int argc, char** argv) {
       if (c < 0) keepGoing = false; // c < 0 means EOF or error.
       else {
         PosInt next (c); // next character, converted to a PosInt
-        next.mul(curByte); // next *= curByte
+        next.fasterMul(curByte); // next *= curByte
         M.add(next);     // M = M + next
         curByte.div(byte);
       }
 
       if (curByte.isZero() || (!keepGoing && !M.isZero())) {
         // HERE'S WHERE YOU HAVE TO DO THE ENCRYPTION!
-        PosInt E (1234); // THIS IS JUST A "DUMMY" VALUE
+        PosInt E(1);
+        powmod(E, M, e, n);
         cout << E << endl;
 
         // Now reset curByte and M and keep going
@@ -224,16 +226,42 @@ int main (int argc, char** argv) {
     PosInt E;
 
     while (cin >> E) {
-      // You have to decrypt E and print out the 10 characters it holds.
-      // Note: use the "convert" function to turn a PosInt into
-      // a regular "int" - and then into a char!.
-      // Follow the procedure from encryption, only in reverse.
-      cout << "abcdefg\n"; // THIS IS JUST A DUMMY!
+        PosInt M(1);
+        powmod(M, E, d, n);
+
+        for(int i = 9; i >= 0; i--)
+        {
+            PosInt base(256);
+            PosInt power(i);
+            base.pow(power);
+
+            PosInt letter(M);
+            letter.div(base);
+            int let;
+            let = letter.convert();
+
+            if(let != 0)
+                cout << char(let);
+            else
+                break;
+
+            M.mod(base);
+        }
     }
     ////////////////// (end of decryption) /////////////////////////////
     if (interactive)
       cerr << "Message successfully decrypted." << endl;
     privin.close();
+  }
+  else if (argv[1][1] == 'm'){
+      if (argc != 4) usage(argv[0],3);
+      else{
+          PosInt X(argv[2]);
+          PosInt Y(argv[3]);
+
+          X.fasterMul(Y);
+          cout << X << endl;
+      }
   }
   else if (argv[1][1] == 'h') usage(argv[0], 0);
   else usage(argv[0],2);
@@ -246,9 +274,25 @@ int main (int argc, char** argv) {
 
 // Computes a^b mod n, and stores the answer in "result".
 void powmod (PosInt& result, const PosInt& a, const PosInt& b, const PosInt& n) {
-  // YOU HAVE TO FILL THIS IN!
-}
+    PosInt zero(0);
+    PosInt two(2);
 
+    PosInt base(a);
+    PosInt expo(b);
+
+    while (expo.compare(zero) == 1)
+    {
+        if (!expo.isEven())
+        {
+            result.fasterMul(base);
+            result.mod(n);
+        }
+
+        base.fasterMul(base);
+        base.mod(n);
+        expo.div(two);
+    }
+}
 /////////////////end modular exponentiation/////////////////
 
 //random number with of length around 2^bits
@@ -306,17 +350,81 @@ void PosInt::fasterMul (const PosInt& x) {
 // The output is stored in the array dest, which is already allocated
 // to the proper length.
 void PosInt::fastMulArray (int* dest, const int* x, const int* y, int len) {
-  // Again, this is just a suggested general outline...
-  if (len <= 3) {
+
+  if (len <= 9) {
     // base case
-    // YOU FILL THIS IN
+    mulArray(dest, x, len, y, len);
   }
   else {
     // recursive case
-    // YOU FILL THIS IN TOO.
     // Hint: you will have to allocate some memory for U, V, P0, P1, and P2
     // Another hint: use the addArray and subArray helper methods from the
     // PosInt class!
+
+    vector<int> X0;
+    vector<int> X1;
+    vector<int> Y0;
+    vector<int> Y1;
+
+    int len0 = len/2;
+    int len1 = len/2+len%2;
+
+    X0.reserve(len0);
+    X1.reserve(len1);
+    Y0.reserve(len0);
+    Y1.reserve(len1);
+
+    for(int i = 0; i < len; i++)
+    {
+        if(i<len0){
+            X0[i] = x[i];
+            Y0[i] = y[i];
+        }
+        else{
+            X1[i-len0] = x[i];
+            Y1[i-len0] = y[i];
+        }
+    }
+
+    vector<int> U;
+    vector<int> V;
+    vector<int> P0;
+    vector<int> P1;
+    vector<int> P2;
+
+
+    U.reserve(len);
+    V.reserve(len);
+    P0.reserve(len);
+    P1.reserve(len);
+    P2.reserve(len);
+
+    U.assign(len, 0);
+    V.assign(len, 0);
+    P0.assign(len*2, 0);
+    P1.assign(len*2, 0);
+    P2.assign(len*2, 0);
+
+    //set U
+    addArray(&U[0], &X1[0], len1);
+    addArray(&U[0], &X0[0], len0);
+
+    //set V
+    addArray(&V[0], &Y1[0], len1);
+    addArray(&V[0], &Y0[0], len0);
+
+    fastMulArray(&P0[0], &X0[0], &Y0[0], len0);
+    fastMulArray(&P1[0], &X1[0], &Y1[0], len1);
+    fastMulArray(&P2[0], &U[0], &V[0], len1+1);
+
+    for(int i = 0; i < 2*len0; i++)
+        dest[i] = P0[i];
+    for(int i = 2*len0; i < 2*len; i++)
+        dest[i] = P1[i-2*len0];
+
+    addArray(&dest[len0], &P2[0], (2*len)-len0);
+    subArray(&dest[len0], &P0[0], (2*len+1)-len0);
+    subArray(&dest[len0], &P1[0], (2*len+1)-len0);
   }
 }
 
@@ -330,6 +438,8 @@ void usage (const char* progname, int ret) {
     << "\t" << progname << " -e PUBLIC_KEY_FILE" << endl
     << "Decrypt a message with private key:" << endl
     << "\t" << progname << " -d PRIVATE_KEY_FILE" << endl
+    << "Multiply 2 numbers using Karatsuba's algorithm:" << endl
+    << "\t" << progname << " -m <a> <b>" << endl
     << "Note: PUBLIC_KEY_FILE and PRIVATE_KEY_FILE are any filenames you choose."
     << endl
     << "      Encryption and decryption read and write to/from standard in/out."
