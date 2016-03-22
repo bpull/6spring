@@ -1,0 +1,34 @@
+Brandon Pullig - 175148
+IC411 - Lab05
+
+1) The threads do not execute sequentially. This is because once
+they are created, they run independently and do not wait for one
+another. Due to a multitude of factors, one thread could be faster
+than another. 
+
+2) Yes, the order can change. Just like in #1, the order can differ
+due to a multitude of reasons. Whether it be a slow print, slow memory
+access, or something else slow, one thread may pass another thread,
+changing the order of execution. 
+
+3) No, the other threads do not block. They will all finish and then
+wait on 7 to finish due to the pthread_join() call in main. 
+
+4) This is not a pure ULT strategy because if it were, when one
+thread becomes blocked, all threads should be blocked. However, they
+continue to run even when one waits on I/O.
+
+5) The main process will wait at pthread_join until all threads are
+ready to be joined together. Therefore, if one thread is blocked, the
+main will wait until that thread is finished at then it will move on. 
+
+6) Yes, there would be a risk of a race condition. The navy thread
+might try to run before its corresponding army thread which would
+effectively be trying to access a piece of data that does not exist
+yet. This would be problematic.
+
+7) Yes, this could be done implementing semaphores. The strategy would
+be to place locks before the critical section (creating the random
+number and placing it in army_scores) and then unlocking it
+afterwords. This would protect that data before the navy threads try
+to alter that data. 
