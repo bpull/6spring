@@ -1,0 +1,78 @@
+meditator 1 getting key 1
+meditator 1 got key 1
+meditator 1 getting mat 1
+meditator 1 got mat 1
+meditator 4 getting mat 1
+meditator 1 getting book 1
+meditator 0 getting mat 0
+meditator 0 got mat 0
+meditator 0 getting book 0
+meditator 0 got book 0
+meditator 0 getting key 0
+meditator 0 got key 0
+meditator 5 getting book 2
+meditator 10 getting key 1
+meditator 3 getting key 0
+meditator 6 getting mat 0
+meditator 12 getting key 0
+meditator 9 getting book 0
+meditator 2 getting mat 2
+meditator 13 getting mat 1
+meditator 1 got book 1
+meditator 14 getting key 2
+meditator 7 getting key 1
+meditator 14 got key 2
+meditator 5 got book 2
+meditator 5 getting key 2
+meditator 11 getting book 2
+meditator 8 getting mat 2
+meditator 2 got mat 2
+meditator 15 getting key 0
+meditator 14 getting mat 2
+meditator 16 getting mat 1
+meditator 2 getting book 2
+meditator 17 getting key 2
+meditator 18 getting key 0
+meditator 19 getting book 1
+meditator 20 getting mat 2
+meditator 21 getting key 0
+meditator 22 getting book 1
+meditator 23 getting key 2
+  **Deadlock detected!**
+             Q        A
+thread  0: 0 0 0    1 1 1 
+thread  1: 0 0 0    1 1 1 
+thread  2: 1 0 1    0 1 0 
+thread  5: 1 1 0    0 0 1 
+thread 14: 0 1 1    1 0 0 
+
+R: 3 3 3    V: 0 0 0    W: 0 0 0 
+meditator 0 released book 0
+meditator 0 released mat 0
+meditator 0 released key 0
+meditator 0 ........... done
+meditator 12 got key 0
+meditator 9 got book 0
+meditator 9 getting key 0
+meditator 1 released book 1
+meditator 6 got mat 0
+meditator 1 released mat 1
+meditator 6 getting book 0
+meditator 12 getting mat 0
+meditator 19 got book 1
+meditator 19 getting key 1
+meditator 19 got key 1
+meditator 19 getting mat 1
+meditator 19 got mat 1
+meditator 1 released key 1
+meditator 1 ........... done
+meditator 19 released book 1
+meditator 19 released mat 1
+meditator 19 released key 1
+meditator 19 ........... done
+meditator 22 got book 1
+meditator 22 getting key 1
+meditator 16 got mat 1
+meditator 16 getting book 1
+meditator 22 got key 1
+meditator 22 getting mat 1
