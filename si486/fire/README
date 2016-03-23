@@ -1,0 +1,19 @@
+
+to build it:
+    make firehalo
+
+to run it:
+    mpirun -n 16 ./firehalo 1600
+
+
+Please read the code and try to understand what it is doing.
+
+LoR -- left or right
+ToB -- top or bottom
+LHS -- left hand side
+RHS -- right hand side
+
+The halo exchange is done in the halosendreceive.c "library".
+The main body sets up everything but you need to add the
+"compute next generation" part.
+
