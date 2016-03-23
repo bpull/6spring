@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     /*--------------------------------------------------------------------------*/
     printf("\n   ----- Exercise 1 ------\n\n");
 
-    #pragma omp parallel private(tid)
+    #pragma omp parallel private(i, j, tid)
     {
       for (i = 0; i < 1000; i++)
 	     for (j = 0; j < 1000; j++)
