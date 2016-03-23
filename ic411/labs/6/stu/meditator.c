@@ -105,6 +105,7 @@ void * meditator(void * t_num)
 {
     int n = * (int *) t_num;
 
+	semWait(key_semaphore);
     /* Get Supplies */
     int r = rand() % 3;
     if (r == 0) {
@@ -138,7 +139,7 @@ void * meditator(void * t_num)
 		get_mat(n);
 	}
 
-	sleep(MEDITATE);
+	//sleep(MEDITATE);
 
 	/* Release Supplies  and finish */
 	printf("meditator %i released book %i\n", n, drop_book(n)); fflush(stdout);
@@ -149,6 +150,7 @@ void * meditator(void * t_num)
 
 	printf("meditator %i ........... done\n", n); fflush(stdout);
 
+	semSignal(key_semaphore);
 }
 
 /*==========================================================================*/
@@ -167,9 +169,7 @@ int main( int argc, char *argv[] )
     for ( i = 0; i < NUM_BOOKS; i++ ) books[i] = -1;
 
     /* TODO: Initialize needed semaphore(s). */
-    semInit(key_semaphore, 3);
-	semInit(mat_semaphore, 3);
-	semInit(book_semaphore,3);
+    semInit(key_semaphore, 1);
 
     /* Initialize data. Create a thread for each meditator. */
     for ( i = 0; i < NUM_MEDITATORS; i++ )
@@ -186,8 +186,6 @@ int main( int argc, char *argv[] )
 
     /* TODO: Release semaphores. */
 	semRelease(key_semaphore);
-	semRelease(mat_semaphore);
-	semRelease(book_semaphore);
 
 
     /* Produce the final report. */

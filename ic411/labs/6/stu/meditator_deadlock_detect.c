@@ -13,7 +13,7 @@
 #define NUM_BOOKS			3
 #define RESOURCE_COUNT		3	// keys, mats, books
 #define SHORT_WAIT			1
-#define MEDITATE			5
+#define MEDITATE			2
 #define KEY					0
 #define MAT					1
 #define BOOK				2
@@ -129,65 +129,101 @@ void * deadlock_detector(void * t_num)
 	int Q_snapshot[NUM_MEDITATORS][RESOURCE_COUNT] = {{0}};	// A snapshot of Q
 	int A_snapshot[NUM_MEDITATORS][RESOURCE_COUNT] = {{0}}; // A snapshot of A
 	int i,j,sum;
-	
+
 	while (!deadlock) {
-		
+
 		// Snapshot the requests Q and allocations A (since they change)
 		memcpy(Q_snapshot, Q, sizeof (int) * NUM_MEDITATORS * RESOURCE_COUNT);
 		memcpy(A_snapshot, A, sizeof (int) * NUM_MEDITATORS * RESOURCE_COUNT);
-		
+
 		// Populate V
-		/* TODO: Populate the available vector V, using data from the 
+		/* TODO done: Populate the available vector V, using data from the
 		snapshot of A, and from the Resouce vector, R */
+		for(i=0; i<RESOURCE_COUNT; i++){
+			int added = 0;
 
+			for(j=0; j<NUM_MEDITATORS; j++){
+				added += A_snapshot[j][i];
+			}
 
-		
+		 	V[i] = R[i] - added;
+		}
 		// W <- V (copy V into the Temporary vector, W)
 		memcpy(W, V, sizeof (int) * RESOURCE_COUNT);
-		
+
 		// Look for a process that can run, and run it. If none exists, deadlock.
 		some_can_run = true;
 		all_analyzed = false;
 		while (some_can_run || !all_analyzed) {
-			
+
 			some_can_run = false;
 			for (i=0; i<NUM_MEDITATORS; i++) { // Loop over threads using i
-				
-				all_zero = true;
-				// See if a thread has nothing allocated in A. 
+
+
+				// See if a thread has nothing allocated in A.
 				// If so, set all_zero to true.
+				all_zero = true;
+				for(j=0; j<RESOURCE_COUNT; j++)
+				{
+					if(A[i][j] != 0)
+						all_zero = false;
+				}
 
 				if (all_zero) {
-				//TODO: Mark this thread i as analyzed but not deadlocked.
-				
-				
+				//TODO done: Mark this thread i as analyzed but not deadlocked.
+					analyzed[i] = true;
+					deadlocked[i] = false;
 				}
 				else {
 				// TODO: Check if a thread's requests Q are all < W.
-				// If so, 'run it': 
+				// If so, 'run it':
 				//	- Mark as analyzed
 				//  - Add its allocations in A_snapshot to W
-				//  - Zero out its A and Q rows	
+				//  - Zero out its A and Q rows
 				//  - Note that it's not deadlocked
-				//  - Note that 'some' thread can run at the moment	
-				// Otherwise, mark it as analyzed and deadlocked	
+				//  - Note that 'some' thread can run at the moment
+				// Otherwise, mark it as analyzed and deadlocked
+					can_run = true;
+					for(j=0; j<RESOURCE_COUNT; j++){
+							can_run = can_run && (Q[i][j] < W[j]);
+					}
+					if(can_run)
+					{
+						analyzed[i] = true;
+						for(j=0; j<RESOURCE_COUNT; j++){
+							W[j] += A_snapshot[i][j];
+							A[i][j] = 0;
+							Q[i][j] = 0;
+						}
+						deadlocked[i] = false;
+						some_can_run = true;
+					}
+					else{
+						analyzed[i] = true;
+						deadlocked[i] = true;
+					}
 				}
 			}
-			
-			// Check if all analyzed
-			// TODO: if all threads have been analyzed, set all_analyzed = true
 
-			
-		} // End 'while (some_can_run || !all_analyzed)' 
-		
+			// Check if all analyzed
+			// TODO done: if all threads have been analyzed, set all_analyzed = true
+			all_analyzed = true;
+			for(i=0; i<NUM_MEDITATORS; i++)
+			{
+				if(analyzed[i] == false)
+					all_analyzed = false;
+			}
+
+		} // End 'while (some_can_run || !all_analyzed)'
+
 		// Do some threads remain deadlocked?
 		deadlock = false;
 		for (i=0; i<NUM_MEDITATORS; i++) deadlock = deadlock || deadlocked[i];
-		
+
 		// Print a report
 		printf(deadlock ? "  **Deadlock detected!**\n" : "  **No deadlock**\n");
 		if (deadlock) {
-		
+
 			/* print Q and A for deadlocked processes */
 			printf("             Q        A\n");
 			for (i=0; i<NUM_MEDITATORS; i++) {
@@ -199,7 +235,7 @@ void * deadlock_detector(void * t_num)
 					printf("\n");
 				}
 			}
-			
+
 			/* Print R, V, W */
 			printf("\nR: ");
 			for (i=0; i<RESOURCE_COUNT; i++) printf("%1i ",R[i]);
@@ -210,11 +246,11 @@ void * deadlock_detector(void * t_num)
 			printf("\n");
 			return 0;
 		}
-		
+
 		sleep(MEDITATE);
-		
+
 	} // End 'while !deadlock'
-	
+
 }
 /*==========================================================================*/
 
@@ -222,9 +258,9 @@ void * meditator(void * t_num)
 /* Simulate a meditator. Each meditator must obtain the correct room key, meditation mat, and spritual book before meditating. The correct number for each is the meditator number modulo the number of that resource (e.g., n % num_keys). This function is called via pthread_create(). The argument is a pointer to an array of meditator numbers. Meditator threads randomly choose which resource to seek first. */
 {
     int n = * (int *) t_num;
-    
+
     Q[n][KEY] = 1; Q[n][MAT] = 1; Q[n][BOOK] = 1; // Update request matrix Q;
-    
+
     /* Get Supplies */
     int r = rand() % 3;
     if (r == 0) {
@@ -235,22 +271,22 @@ void * meditator(void * t_num)
 		get_mat(n);
 
 		printf("meditator %i getting book %i\n", n, n % NUM_BOOKS); fflush(stdout);
-		get_book(n);	
+		get_book(n);
 	}
 	else if (r == 1) {
 		printf("meditator %i getting mat %i\n", n, n % NUM_MATS); fflush(stdout);
 		get_mat(n);
 
 		printf("meditator %i getting book %i\n", n, n % NUM_BOOKS); fflush(stdout);
-		get_book(n);		
+		get_book(n);
 
 		printf("meditator %i getting key %i\n", n, n % NUM_KEYS); fflush(stdout);
-		get_key(n);	
+		get_key(n);
 	}
 	else {
 		printf("meditator %i getting book %i\n", n, n % NUM_BOOKS); fflush(stdout);
 		get_book(n);
-		
+
 		printf("meditator %i getting key %i\n", n, n % NUM_KEYS); fflush(stdout);
 		get_key(n);
 
@@ -267,7 +303,7 @@ void * meditator(void * t_num)
 
 	printf("meditator %i released key %i\n", n, drop_key(n)); fflush(stdout);
 
-	printf("meditator %i ........... done\n", n); fflush(stdout); 
+	printf("meditator %i ........... done\n", n); fflush(stdout);
 
 }
 
@@ -275,14 +311,14 @@ void * meditator(void * t_num)
 
 int main( int argc, char *argv[] )
 {
-	
+
     int i;
     pthread_t med[NUM_MEDITATORS];
     pthread_t deadlock_detect_thread;
     int statics[NUM_MEDITATORS];
- 
+
 	srand(time(NULL));
-    
+
     for ( i = 0; i < NUM_KEYS; i++ ) keys[i] = -1;
     for ( i = 0; i < NUM_MATS; i++ ) mats[i] = -1;
     for ( i = 0; i < NUM_BOOKS; i++ ) books[i] = -1;
@@ -294,15 +330,15 @@ int main( int argc, char *argv[] )
 		has_key[i] = -1;
 		has_mat[i] = -1;
 		has_book[i] = -1;
-		pthread_create( &med[i], NULL, meditator, &statics[i] ); 
+		pthread_create( &med[i], NULL, meditator, &statics[i] );
     }
-    
+
     /* Create deadlock detection thread */
-    // pthread_create( &deadlock_detect_thread, NULL, deadlock_detector, NULL);
+    pthread_create( &deadlock_detect_thread, NULL, deadlock_detector, NULL);
 
     /* Wait for all meditators to finish. */
     for ( i = 0; i < NUM_MEDITATORS; i++ ) pthread_join( med[i], NULL );
-    
+
     /* Wait for detector to finish. */
     pthread_join(deadlock_detect_thread, NULL);
 
