@@ -1,0 +1,241 @@
+meditator 1 getting mat 1
+meditator 1 got mat 1
+meditator 1 getting book 1
+meditator 1 got book 1
+meditator 1 getting key 1
+meditator 1 got key 1
+meditator 1 released book 1
+meditator 1 released mat 1
+meditator 1 released key 1
+meditator 1 ........... done
+meditator 7 getting book 1
+meditator 7 got book 1
+meditator 7 getting key 1
+meditator 7 got key 1
+meditator 7 getting mat 1
+meditator 7 got mat 1
+meditator 7 released book 1
+meditator 7 released mat 1
+meditator 7 released key 1
+meditator 7 ........... done
+meditator 2 getting mat 2
+meditator 2 got mat 2
+meditator 2 getting book 2
+meditator 2 got book 2
+meditator 2 getting key 2
+meditator 2 got key 2
+meditator 2 released book 2
+meditator 2 released mat 2
+meditator 2 released key 2
+meditator 2 ........... done
+meditator 12 getting book 0
+meditator 12 got book 0
+meditator 12 getting key 0
+meditator 12 got key 0
+meditator 12 getting mat 0
+meditator 12 got mat 0
+meditator 12 released book 0
+meditator 12 released mat 0
+meditator 12 released key 0
+meditator 12 ........... done
+meditator 13 getting mat 1
+meditator 13 got mat 1
+meditator 13 getting book 1
+meditator 13 got book 1
+meditator 13 getting key 1
+meditator 13 got key 1
+meditator 13 released book 1
+meditator 13 released mat 1
+meditator 13 released key 1
+meditator 13 ........... done
+meditator 16 getting key 1
+meditator 16 got key 1
+meditator 16 getting mat 1
+meditator 16 got mat 1
+meditator 16 getting book 1
+meditator 16 got book 1
+meditator 16 released book 1
+meditator 16 released mat 1
+meditator 16 released key 1
+meditator 16 ........... done
+meditator 6 getting mat 0
+meditator 6 got mat 0
+meditator 6 getting book 0
+meditator 6 got book 0
+meditator 6 getting key 0
+meditator 6 got key 0
+meditator 6 released book 0
+meditator 6 released mat 0
+meditator 6 released key 0
+meditator 6 ........... done
+meditator 20 getting book 2
+meditator 20 got book 2
+meditator 20 getting key 2
+meditator 20 got key 2
+meditator 20 getting mat 2
+meditator 20 got mat 2
+meditator 20 released book 2
+meditator 20 released mat 2
+meditator 20 released key 2
+meditator 20 ........... done
+meditator 22 getting key 1
+meditator 22 got key 1
+meditator 22 getting mat 1
+meditator 22 got mat 1
+meditator 22 getting book 1
+meditator 22 got book 1
+meditator 22 released book 1
+meditator 22 released mat 1
+meditator 22 released key 1
+meditator 22 ........... done
+meditator 10 getting mat 1
+meditator 10 got mat 1
+meditator 10 getting book 1
+meditator 10 got book 1
+meditator 10 getting key 1
+meditator 10 got key 1
+meditator 10 released book 1
+meditator 10 released mat 1
+meditator 10 released key 1
+meditator 10 ........... done
+meditator 11 getting book 2
+meditator 11 got book 2
+meditator 11 getting key 2
+meditator 11 got key 2
+meditator 11 getting mat 2
+meditator 11 got mat 2
+meditator 11 released book 2
+meditator 11 released mat 2
+meditator 11 released key 2
+meditator 11 ........... done
+meditator 23 getting key 2
+meditator 23 got key 2
+meditator 23 getting mat 2
+meditator 23 got mat 2
+meditator 23 getting book 2
+meditator 23 got book 2
+meditator 23 released book 2
+meditator 23 released mat 2
+meditator 23 released key 2
+meditator 23 ........... done
+meditator 14 getting mat 2
+meditator 14 got mat 2
+meditator 14 getting book 2
+meditator 14 got book 2
+meditator 14 getting key 2
+meditator 14 got key 2
+meditator 14 released book 2
+meditator 14 released mat 2
+meditator 14 released key 2
+meditator 14 ........... done
+meditator 4 getting book 1
+meditator 4 got book 1
+meditator 4 getting key 1
+meditator 4 got key 1
+meditator 4 getting mat 1
+meditator 4 got mat 1
+meditator 4 released book 1
+meditator 4 released mat 1
+meditator 4 released key 1
+meditator 4 ........... done
+meditator 15 getting mat 0
+meditator 15 got mat 0
+meditator 15 getting book 0
+meditator 15 got book 0
+meditator 15 getting key 0
+meditator 15 got key 0
+meditator 15 released book 0
+meditator 15 released mat 0
+meditator 15 released key 0
+meditator 15 ........... done
+meditator 5 getting key 2
+meditator 5 got key 2
+meditator 5 getting mat 2
+meditator 5 got mat 2
+meditator 5 getting book 2
+meditator 5 got book 2
+meditator 5 released book 2
+meditator 5 released mat 2
+meditator 5 released key 2
+meditator 5 ........... done
+meditator 17 getting book 2
+meditator 17 got book 2
+meditator 17 getting key 2
+meditator 17 got key 2
+meditator 17 getting mat 2
+meditator 17 got mat 2
+meditator 17 released book 2
+meditator 17 released mat 2
+meditator 17 released key 2
+meditator 17 ........... done
+meditator 9 getting key 0
+meditator 9 got key 0
+meditator 9 getting mat 0
+meditator 9 got mat 0
+meditator 9 getting book 0
+meditator 9 got book 0
+meditator 9 released book 0
+meditator 9 released mat 0
+meditator 9 released key 0
+meditator 9 ........... done
+meditator 18 getting book 0
+meditator 18 got book 0
+meditator 18 getting key 0
+meditator 18 got key 0
+meditator 18 getting mat 0
+meditator 18 got mat 0
+meditator 18 released book 0
+meditator 18 released mat 0
+meditator 18 released key 0
+meditator 18 ........... done
+meditator 19 getting book 1
+meditator 19 got book 1
+meditator 19 getting key 1
+meditator 19 got key 1
+meditator 19 getting mat 1
+meditator 19 got mat 1
+meditator 19 released book 1
+meditator 19 released mat 1
+meditator 19 released key 1
+meditator 19 ........... done
+meditator 0 getting key 0
+meditator 0 got key 0
+meditator 0 getting mat 0
+meditator 0 got mat 0
+meditator 0 getting book 0
+meditator 0 got book 0
+meditator 0 released book 0
+meditator 0 released mat 0
+meditator 0 released key 0
+meditator 0 ........... done
+meditator 8 getting mat 2
+meditator 8 got mat 2
+meditator 8 getting book 2
+meditator 8 got book 2
+meditator 8 getting key 2
+meditator 8 got key 2
+meditator 8 released book 2
+meditator 8 released mat 2
+meditator 8 released key 2
+meditator 8 ........... done
+meditator 21 getting mat 0
+meditator 21 got mat 0
+meditator 21 getting book 0
+meditator 21 got book 0
+meditator 21 getting key 0
+meditator 21 got key 0
+meditator 21 released book 0
+meditator 21 released mat 0
+meditator 21 released key 0
+meditator 21 ........... done
+meditator 3 getting book 0
+meditator 3 got book 0
+meditator 3 getting key 0
+meditator 3 got key 0
+meditator 3 getting mat 0
+meditator 3 got mat 0
+meditator 3 released book 0
+meditator 3 released mat 0
+meditator 3 released key 0
+meditator 3 ........... done
+All meditators have achieved nirvana
