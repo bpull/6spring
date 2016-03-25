@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
+#include <time.h>
 #include "mpi.h"
 /*
  *  Forest Fire Simulation
@@ -58,6 +59,43 @@ haloExchange(char **board, int bdim, int gridn)
     TopBotExch(board, bdim, gridn);
 } // haloExchange
 
+int
+placeTree(double treeDensity)
+{
+    double treeProb = rand() / (double)RAND_MAX;
+    if(treeProb < treeDensity)
+    {
+        double howOld = rand() / (double)RAND_MAX;
+        int fireProb = rand() % 100000000;
+        if(howOld <= .2){
+            if(fireProb == 1){
+                printf("Fire Started!");
+                return -1;
+            }
+            else
+                return 1;
+        }
+        else if(howOld <= .4){
+            if(fireProb == 1){
+                printf("Fire Started!");
+                return -2;
+            }
+            else
+                return 2;
+        }
+        else{
+            if(fireProb == 1){
+                printf("Fire Started!");
+                return -3;
+            }
+            else
+                return 3;
+        }
+    }
+    else
+        return 0;
+}
+
 main(int argc, char ** argv)
 {
     int n;	// dim. of ranks
@@ -65,6 +103,7 @@ main(int argc, char ** argv)
     int sum;
     int totsum;
     int size;
+    double treeDensity;
     char **myboard[2];
 
     if (argc < 2) {
@@ -85,6 +124,7 @@ main(int argc, char ** argv)
     n = (int)sqrt(myworld);
     size = atoi(argv[1])+2;	// +2 for halo
 
+    treeDensity = atof(argv[2]);
     // the scratch buffer is one row or column + halo cells
     bufr = calloc(size, sizeof(char));
 
@@ -95,10 +135,13 @@ main(int argc, char ** argv)
 	    myboard[k][i] = calloc(size, sizeof(char));
 	} //next i
 
+    srand(time(NULL)+myrank);
+
 	// test scenario - fill both boards
 	for(i=1; i<(size-1); i++) {
 	    for(j=1; j<(size-1); j++) {
-		myboard[k][i][j] = myrank;
+            int tree = placeTree(treeDensity);
+            myboard[k][i][j] = tree;
 	    } // next j
 	} //next i
     } // next k
