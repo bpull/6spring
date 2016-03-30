@@ -101,7 +101,7 @@ main(int argc, char ** argv)
     int n;	// dim. of ranks
     int i,j,k,b;
     int sum;
-    int totsum;
+    double totsum;
     int size;
     double treeDensity;
     char **myboard[2];
@@ -160,9 +160,13 @@ main(int argc, char ** argv)
     }
 
     // test scenario
-    sum = mornaybrs(myboard[0], size-2);
-    MPI_Reduce(&sum, &totsum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-    if (myrank == 0) { printf("total sum = %d\n", totsum); }
+    finalDensity = density(myboard[0]);
+    MPI_Reduce(&finalDensity, &totsum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    if (myrank == 0)
+    {
+        totsum /= (double)np;
+        printf("Average Density After Fires = %d\n", totsum);
+    }
 
     MPI_Finalize();
 } // main
