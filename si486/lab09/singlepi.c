@@ -14,7 +14,6 @@ throwdarts(long iters)
   double x, y;
   double h;		// hypotenuse
 
-#pragma omp parallel for private(l) shared(insiders)
   for(l=0; l < iters; l++) {
     x = ((double) rand()) / RAND_MAX;
     y = ((double) rand()) / RAND_MAX;
