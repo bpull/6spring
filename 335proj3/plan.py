@@ -128,9 +128,11 @@ def main():
             if assetList[j].goal == (str(assetList[j].posx) +","+ str(assetList[j].posy)):
                 targetList.pop(closestTargets[0][2])
                 if len(targetList) == 0:
-                    movesfile.close()
                     while int(j) != len(assetList)-1:
                         movesfile.write("L")
+                        j = j+1
+                    movesfile.write("\n")
+                    movesfile.close()
                     return
 
         #check if points are dead
@@ -139,9 +141,11 @@ def main():
             if int(targetList[i].point) == 0:
                 targetList.pop(i)
                 if len(targetList) == 0:
-                    movesfile.close()
                     while int(j) != len(assetList)-1:
                         movesfile.write("L")
+                        j = j+1
+                    movesfile.write("\n")
+                    movesfile.close()
                     return
 
         movesfile.write("\n")
