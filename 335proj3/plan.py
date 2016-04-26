@@ -129,6 +129,8 @@ def main():
                 targetList.pop(closestTargets[0][2])
                 if len(targetList) == 0:
                     movesfile.close()
+                    while int(j) != len(assetList)-1:
+                        movesfile.write("L")
                     return
 
         #check if points are dead
@@ -138,6 +140,8 @@ def main():
                 targetList.pop(i)
                 if len(targetList) == 0:
                     movesfile.close()
+                    while int(j) != len(assetList)-1:
+                        movesfile.write("L")
                     return
 
         movesfile.write("\n")
