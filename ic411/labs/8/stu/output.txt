@@ -1,0 +1,30 @@
+
+Scheduler: RR
+Response Time Avg.:	32.37 ticks
+Turnaround Time Avg.:	58.34 ticks
+
+Scheduler: PRI
+Response Time Avg.:	10.69 ticks
+Turnaround Time Avg.:	68.40 ticks
+
+Scheduler: FCFS
+Response Time Avg.:	45.60 ticks
+Turnaround Time Avg.:	51.10 ticks
+
+Scheduler: SPN
+Response Time Avg.:	43.24 ticks
+Turnaround Time Avg.:	48.74 ticks
+
+Scheduler: SRT
+Response Time Avg.:	25.80 ticks
+Turnaround Time Avg.:	32.18 ticks
+
+Scheduler: HRRN
+Response Time Avg.:	36.56 ticks
+Turnaround Time Avg.:	42.06 ticks
+
+
+**********Data Summary*********
+In this example, SRT has both the fastest response time and the fastest turnaround time.
+This is most likely due to pre-emption of programs who have the least amount of time left to run.
+This is probably not the best idea because the largest programs (longest service time) will get starved when many small programs come in.

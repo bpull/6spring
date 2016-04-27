@@ -247,3 +247,10 @@ for scheduler in schedulers:
 
 	# Go to next scheduler
 	scheduler_index += 1
+
+print("\n\n**********Data Summary*********\nIn this example, SRT has both the fastest response \
+time and the fastest turnaround time.")
+print ("This is most likely due to pre-emption of programs who have \
+the least amount of time left to run.")
+print("This is probably not the best idea because the largest \
+programs (longest service time) will get starved when many small programs come in.")
