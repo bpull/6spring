@@ -4,16 +4,16 @@ Response Time Avg.:	32.37 ticks
 Turnaround Time Avg.:	58.34 ticks
 
 Scheduler: PRI
-Response Time Avg.:	10.69 ticks
-Turnaround Time Avg.:	68.40 ticks
+Response Time Avg.:	33.18 ticks
+Turnaround Time Avg.:	56.71 ticks
 
 Scheduler: FCFS
 Response Time Avg.:	45.60 ticks
 Turnaround Time Avg.:	51.10 ticks
 
 Scheduler: SPN
-Response Time Avg.:	43.24 ticks
-Turnaround Time Avg.:	48.74 ticks
+Response Time Avg.:	27.38 ticks
+Turnaround Time Avg.:	32.88 ticks
 
 Scheduler: SRT
 Response Time Avg.:	25.80 ticks
